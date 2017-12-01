@@ -7,7 +7,7 @@ server.on("request", function (request, response) {
     if (request.method === "GET" && request.url === "/hello") {
         response.write("<h1>Hello world!</h1>");
         response.end();
-    } else if (request.method === "GET" && request.url === "/") {
+    } else if (request.method === "GET" && request.url === "/hei") {
             fs.readFile("index.html", "utf8", function (err, file) {
                 if (err) throw err;
                 server.on("request", function (request, response) {
@@ -17,13 +17,11 @@ server.on("request", function (request, response) {
             });
     } else {
         response.statusCode = 404;
-        var img = "./lego.png";
-        fs.readFile("/", "utf-8", function(err, img) {
+        fs.readFile("./lego.png", "utf-8", function(err, img) {
             if (err) throw err;
             server.on("request", function(request, response) {
                 response.setHeader("Content-Type", "image/png");
-                return response.send(img);
-                response.end();
+                response.end(img);
             });
         });
         response.end();
