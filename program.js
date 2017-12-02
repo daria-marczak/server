@@ -11,14 +11,16 @@ server.on("request", function (request, response) {
             fs.readFile("index.html", "utf8", function (err, file) {
                 if (err) throw err;
                 response.setHeader("200", "Content-Type", "text/html, charset=utf-8");
-                response.end(file);
+                response.write(file);
+                response.end();
             });
     } else {
-        response.statusCode = 200;
-        response.setHeader("Content-Type", "image/png")
-        fs.readFile("./lego.png", "utf-8", function(err, img) {
+        response.statusCode = 404;
+        response.writeHead(200, {"Content-Type": "image/png"})
+        fs.readFile("./lego.png", "binary", function(err, img) {
             if (err) throw err;
-            response.end(img);
+            response.write(img, "binary");
+            response.end();
         });
     }
 });
