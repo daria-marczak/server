@@ -10,21 +10,16 @@ server.on("request", function (request, response) {
     } else if (request.method === "GET" && request.url === "/hei") {
             fs.readFile("index.html", "utf8", function (err, file) {
                 if (err) throw err;
-                server.on("request", function (request, response) {
-                    response.setHeader("Content-Type", "text/html, charset=utf-8");
-                    response.end(file);
-                });
+                response.setHeader("200", "Content-Type", "text/html, charset=utf-8");
+                response.end(file);
             });
     } else {
-        response.statusCode = 404;
+        response.statusCode = 200;
+        response.setHeader("Content-Type", "image/png")
         fs.readFile("./lego.png", "utf-8", function(err, img) {
             if (err) throw err;
-            server.on("request", function(request, response) {
-                response.setHeader("Content-Type", "image/png");
-                response.end(img);
-            });
+            response.end(img);
         });
-        response.end();
-    };
+    }
 });
 server.listen(9000);
